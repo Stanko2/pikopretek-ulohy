@@ -12,12 +12,12 @@
     <div style="margin-top: 15vh;" class="container d-flex flex-column justify-content-center align-content-center">
         <h1 class="text-center">Uloha</h1>
         <p class="text-center">Mozte sem zadavat cisla, pismena alebo cele slova, vasim cielom je aby moja odpoved bola <code>{{ chcenaOdpoved}}</code>. Slovo, ktore ste sem zadali viete odovzdat na Discord</p>
-        <div class="input-group">
+        <form class="input-group" ng-submit="zahadnaFunkcia()">
             <input type="text" ng-model="input" class="form-control" placeholder="Zadaj nieco ..." aria-label="" aria-describedby="basic-addon1">
             <div class="input-group-append">
-                <button class="btn btn-success" type="button" ng-click="zahadnaFunkcia()" ng-disabled="input==''">Opytat sa</button>
+                <button class="btn btn-success" type="submit" ng-disabled="input==''">Opytat sa</button>
             </div>
-        </div>  
+        </form>  
         <ul class="list-group" style="margin-top: 3vh;">
             <li class="list-group-item" ng-repeat="a in historia" ng-class="{
                 'list-group-item-warning': !a.spravne && !a.nedefinovane, 
@@ -47,7 +47,7 @@
                 if(!isAlphaNumeric(str)){
                     output = 'Mozte sem zadavat len cisla a pismena'
                 }
-                $scope.historia.push({
+                $scope.historia.unshift({
                     input: $scope.input,
                     output: output,
                     spravne: output == $scope.chcenaOdpoved,
