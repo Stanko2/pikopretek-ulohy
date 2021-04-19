@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body  ng-app="myApp" ng-controller="main">
+    <div style="margin-top: 15vh;" class="container d-flex flex-column justify-content-center align-content-center">
+        <h1 class="text-center">Uloha</h1>
+        <p class="text-center">Mozte sem zadavat cisla, pismena alebo cele slova, vasim cielom je aby moja odpoved bola <code>{{ chcenaOdpoved}}</code>. Slovo, ktore ste sem zadali viete odovzdat na Discord</p>
+        <div class="input-group">
+            <input type="text" ng-model="input" class="form-control" placeholder="Zadaj nieco ..." aria-label="" aria-describedby="basic-addon1">
+            <div class="input-group-append">
+                <button class="btn btn-success" type="button" ng-click="zahadnaFunkcia()" ng-disabled="input==''">Opytat sa</button>
+            </div>
+        </div>  
+        <ul class="list-group" style="margin-top: 3vh;">
+            <li class="list-group-item" ng-repeat="a in historia" ng-class="{
+                'list-group-item-warning': !a.spravne && !a.nedefinovane, 
+                'list-group-item-success': a.spravne && !a.nedefinovane,
+                'list-group-item-danger': a.nedefinovane }">
+                Zadali ste <code>{{ a.input }}</code>, odpovedal som <code>{{ a.output }}</code>
+            </li>
+        </ul>
+    </div>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('main', ['$scope', mainctrl]);
+        function mainctrl($scope){
+            $scope.chcenaOdpoved = 'macka';
+            $scope.input = '';
+            $scope.historia = [];
+            const shift = 3;
+            $scope.zahadnaFunkcia = function(){
+                var output = '';
+                var str = $scope.input.toLowerCase();
+                for (var i = 0; i < str.length; i++) {
+                    var newChar = str.charCodeAt(i)+shift;
+                    if(newChar > 122) newChar -= 26;
+                    if(newChar < 97 && newChar > 57) newChar -= 10;
+                    output += String.fromCharCode(newChar);
+                }
+                if(!isAlphaNumeric(str)){
+                    output = 'Mozte sem zadavat len cisla a pismena'
+                }
+                $scope.historia.push({
+                    input: $scope.input,
+                    output: output,
+                    spravne: output == $scope.chcenaOdpoved,
+                    nedefinovane: output == 'Mozte sem zadavat len cisla a pismena'
+                });
+                $scope.input = '';
+            }
+            function isAlphaNumeric(str) {
+                var code, i, len;
+
+                for (i = 0, len = str.length; i < len; i++) {
+                    code = str.charCodeAt(i);
+                    if (!(code > 47 && code < 58) && // numeric (0-9)
+                        !(code > 64 && code < 91) && // upper alpha (A-Z)
+                        !(code > 96 && code < 123)) { // lower alpha (a-z)
+                    return false;
+                    }
+                }
+                return true;
+            };
+        }
+    </script>
+</body>
+</html>
