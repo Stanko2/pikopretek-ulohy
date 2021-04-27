@@ -10,12 +10,12 @@
 </head>
 <body  ng-app="myApp" ng-controller="main">
     <div style="margin-top: 15vh;" class="container d-flex flex-column justify-content-center align-content-center">
-        <h1 class="text-center">Uloha</h1>
-        <p class="text-center">Mozte sem zadavat cisla, pismena alebo cele slova, vasim cielom je aby moja odpoved bola <code>{{ chcenaOdpoved}}</code>. Slovo, ktore ste sem zadali viete odovzdat na Discord</p>
+        <h1 class="text-center">Trezor</h1>
+        <p class="text-center">Ahojte, dostali ste sa k tajnému trezoru, do ktorého potrebujete zistiť heslo. Heslo sa môže skladať z rôznych čísel alebo písmen a viete ho tipovať hocikoľkokrát. Trezor vám ale nepovie, či je vaše heslo správne alebo nesprávne, ale ukáže vám nejaké iné slovo, alebo číslo. Vy však viete, že ak vám odpovie<code>{{ chcenaOdpoved}}</code>, tak sa otvorí a tým pádom ste vyhrali. Heslo, ktoré ste sem zadali a bolo správne viete odovzdať na Discord</p>
         <form class="input-group" ng-submit="zahadnaFunkcia()">
             <input type="text" ng-model="input" class="form-control" placeholder="Zadaj nieco ..." aria-label="" aria-describedby="basic-addon1">
             <div class="input-group-append">
-                <button class="btn btn-success" type="submit" ng-disabled="input==''">Opytat sa</button>
+                <button class="btn btn-success" type="submit" ng-disabled="input==''">Vyskúšať</button>
             </div>
         </form>  
         <ul class="list-group" style="margin-top: 3vh;">
@@ -23,7 +23,7 @@
                 'list-group-item-warning': !a.spravne && !a.nedefinovane, 
                 'list-group-item-success': a.spravne && !a.nedefinovane,
                 'list-group-item-danger': a.nedefinovane }">
-                Zadali ste <code>{{ a.input }}</code>, odpovedal som <code>{{ a.output }}</code>
+                Skúsili ste <code>{{ a.input }}</code>, na trezore ste videli <code>{{ a.output }}</code>
             </li>
         </ul>
     </div>
@@ -31,6 +31,7 @@
         var app = angular.module('myApp', []);
         app.controller('main', ['$scope', mainctrl]);
         function mainctrl($scope){
+            var zlyVstup = 'Heslo sa môže skladať len s čísel alebo písmen';
             $scope.chcenaOdpoved = 'macka';
             $scope.input = '';
             $scope.historia = [];
@@ -45,13 +46,13 @@
                     output += String.fromCharCode(newChar);
                 }
                 if(!isAlphaNumeric(str)){
-                    output = 'Mozte sem zadavat len cisla a pismena'
+                    output = zlyVstup
                 }
                 $scope.historia.unshift({
                     input: $scope.input,
                     output: output,
                     spravne: output == $scope.chcenaOdpoved,
-                    nedefinovane: output == 'Mozte sem zadavat len cisla a pismena'
+                    nedefinovane: output == zlyVstup
                 });
                 $scope.input = '';
             }
