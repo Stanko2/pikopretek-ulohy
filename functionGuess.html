@@ -11,7 +11,9 @@
 <body  ng-app="myApp" ng-controller="main">
     <div style="margin-top: 15vh;" class="container d-flex flex-column justify-content-center align-content-center">
         <h1 class="text-center">Trezor</h1>
-        <p class="text-center">Ahojte, dostali ste sa k tajnému trezoru, do ktorého potrebujete zistiť heslo. Heslo sa môže skladať z rôznych čísel alebo písmen a viete ho tipovať hocikoľkokrát. Trezor vám ale nepovie, či je vaše heslo správne alebo nesprávne, ale ukáže vám nejaké iné slovo, alebo číslo. Vy však viete, že ak vám odpovie<code>{{ chcenaOdpoved}}</code>, tak sa otvorí a tým pádom ste vyhrali. Heslo, ktoré ste sem zadali a bolo správne viete odovzdať na Discord</p>
+        <p class="text-center">Po náročnej ceste pralesom, ste narazili na trezor. Čo ak sa v ňom ukrýva niečo, čo by ste chceli? Na to, aby ste sa do trezora dostali, musíte zistiť heslo. Heslo sa môže skladať z rôznych čísel alebo písmen. Máte neobmedzený počet pokusov.
+O hesle k trezoru sa Vám podarilo zistiť tajnú informáciu. Ak Vám trezor odpovie <code>{{ chcenaOdpoved }}</code>, otvorí sa!
+Aké heslo ste museli zadať na to, aby trezor odpovedal slovom <code>{{ chcenaOdpoved }}</code>?</p>
         <form class="input-group" ng-submit="zahadnaFunkcia()">
             <input type="text" ng-model="input" class="form-control" placeholder="Zadaj nieco ..." aria-label="" aria-describedby="basic-addon1">
             <div class="input-group-append">
@@ -32,7 +34,7 @@
         app.controller('main', ['$scope', mainctrl]);
         function mainctrl($scope){
             var zlyVstup = 'Heslo sa môže skladať len s čísel alebo písmen';
-            $scope.chcenaOdpoved = 'macka';
+            $scope.chcenaOdpoved = 'krokodil';
             $scope.input = '';
             $scope.historia = [];
             const shift = 3;
